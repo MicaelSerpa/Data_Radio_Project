@@ -7,13 +7,7 @@ FilterOnePole filtro_AO3(LOWPASS, 0.2);
 
 
 
-int PWM_ = 69;  //4.05 mA
-//int PWM_ = 115; //8,03 mA
-//int PWM_ = 157; //12.03 mA
-//int PWM_ = 198;  //16.04 mA
-//int PWM_ = 247;  //20.02 mA
 
-//1535 GERA 12,89
 
 bool DI1;
 bool DI2;
@@ -29,8 +23,6 @@ long tempo_loop;
 int estado_led = 0;
 
 void setup() {
-
-
 
   Serial1.begin(9600, SERIAL_8N1);
   Serial3.begin(9600, SERIAL_8N1);
@@ -56,8 +48,6 @@ void setup() {
 }
 
 
-
-
 void loop() {
 
   //Serial.println("travando no loop");
@@ -75,16 +65,24 @@ void loop() {
 
   // mostrar_dados();
 
-  digitalWrite(DO1, !valorA);
+  digitalWrite(DO1, valorA);
   digitalWrite(DO2, valorB);
   digitalWrite(DO3, valorC);
   digitalWrite(DO4, valorD);
 
+  //valorE
+  //valorF
+  //valorG
 
+  float corrente_desejada = 20.0;
 
-  int AI1 = (int)(((valorE - 4.0) * (247.0 - 69.0) / (20.0 - 4.0) + 69.0) * 1);
-  int AI2 = (int)(((valorF - 4.0) * (247.0 - 69.0) / (20.0 - 4.0) + 69.0) * 1);
-  int AI3 = (int)(((valorG - 4.0) * (247.0 - 69.0) / (20.0 - 4.0) + 69.0) * 1);
+  int AI1 = (int)(((valorE - 4.0) * 204.0 / 16.0) + 46.0);
+  int AI2 = (int)(((valorF - 4.0) * 204.0 / 16.0) + 46.0);
+  int AI3 = (int)(((valorG - 4.0) * 204.0 / 16.0) + 46.0);
+
+  AI1 = constrain(AI1, 46, 250);
+  AI2 = constrain(AI2, 46, 247);
+  AI3 = constrain(AI3, 46, 248);
 
   analogWrite(AO1, AI1);
   analogWrite(AO2, AI2);

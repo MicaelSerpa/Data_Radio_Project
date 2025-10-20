@@ -1,7 +1,7 @@
 long Tempo_Ultima_Comunicacao = 0;
 int Flag_Serial = 0;
 
-void receber() {
+void receber_RS485() {
 
   if (millis() - Tempo_Ultima_Comunicacao > 3000) {
 

@@ -1,21 +1,6 @@
 #include "head.h"
 
-int PWM_ = 69;  //4.05 mA
-//int PWM_ = 115; //8,03 mA
-//int PWM_ = 157; //12.03 mA
-//int PWM_ = 198;  //16.04 mA
-//int PWM_ = 247;  //20.02 mA
 
-//1535 GERA 12,89
-
-bool DI1;
-bool DI2;
-bool DI3;
-bool DI4;
-
-int AI1;
-int AI2;
-int AI3;
 
 long tempo_loop;
 
@@ -49,7 +34,7 @@ void loop() {
   digitalWrite(EBYTE_M1, LOW);
 
   digitalWrite(RS485_RE_DE, LOW);  // LOW PARA RECEBER E HIGH PARA ENVIAR
-  receber();
+  receber_RS485();
 
 
   if (millis() - tempo_loop > 1500) {

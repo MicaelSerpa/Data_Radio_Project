@@ -12,7 +12,6 @@
 
 #define RE_DE PA8
 
-
 int di1 = 0;
 int di2 = 0;
 int di3 = 0;

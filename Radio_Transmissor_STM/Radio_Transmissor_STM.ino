@@ -4,15 +4,12 @@ long tempo_troca;
 int estado_led = 0;
 float incremento_corrente = 4.0;
 
-
 String Pacote = "";
 
 void setup() {
 
   Serial1.begin(9600, SERIAL_8N1);
-
   Serial3.begin(9600, SERIAL_8N1);
-
   Serial1.println("iniciando....");
 
   pinMode(DO1, INPUT);
@@ -30,7 +27,6 @@ void setup() {
 }
 
 void loop() {
-
 
   digitalWrite(RE_DE, HIGH);  // High para enviar
 
@@ -67,17 +63,13 @@ void loop() {
   // AI2 = incremento_corrente;
   // AI3 = incremento_corrente;
 
-
-
-
   ai1 = analogRead(AO1);
   ai2 = analogRead(AO2);
   ai3 = analogRead(AO3);
 
-  AI1 = lerCorrente(ai1, 156.67);
-  AI2 = lerCorrente(ai2, 156.67);
-  AI3 = lerCorrente(ai3, 156.67);
-
+  AI1 = lerCorrenteCalibrada(ai1, 156.67, 0.9818, -0.0165);
+  AI2 = lerCorrenteCalibrada(ai2, 156.67, 0.9824, -0.1278);
+  AI3 = lerCorrenteCalibrada(ai3, 156.67, 0.9814, -0.0079);
 
   digitalWrite(LED, estado_led);
 
