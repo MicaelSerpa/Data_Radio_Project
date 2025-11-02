@@ -1,12 +1,7 @@
 #include "head.h"
-#include <Filters.h>  //Filtro para remover as variações do sinal analógico
 
-FilterOnePole filtro_AO1(LOWPASS, 0.2);
-FilterOnePole filtro_AO2(LOWPASS, 0.2);
-FilterOnePole filtro_AO3(LOWPASS, 0.2);
-
-
-
+int D_OUT1, D_OUT2, D_OUT3, D_OUT4;
+float Corrente1, Corrente2, Corrente3;
 
 
 bool DI1;
@@ -26,6 +21,8 @@ void setup() {
 
   Serial1.begin(9600, SERIAL_8N1);
   Serial3.begin(9600, SERIAL_8N1);
+
+  // SerialRS485.begin(9600);  // Serial por software (pode ajustar)
 
   Serial1.println("iniciando....");
 
@@ -63,28 +60,39 @@ void loop() {
   receber();
 
 
-  // mostrar_dados();
+  //  mostrar_dados();
 
-  digitalWrite(DO1, valorA);
-  digitalWrite(DO2, valorB);
-  digitalWrite(DO3, valorC);
-  digitalWrite(DO4, valorD);
+
+  D_OUT1 = valorA;
+  D_OUT2 = valorB;
+  D_OUT3 = valorC;
+  D_OUT4 = valorD;
+
+  digitalWrite(DO1, D_OUT1);
+  digitalWrite(DO2, D_OUT2);
+  digitalWrite(DO3, D_OUT3);
+  digitalWrite(DO4, D_OUT4);
 
   //valorE
   //valorF
   //valorG
 
-  float corrente_desejada = 20.0;
+  float corrente_desejada = 4.0;
 
-  int AI1 = (int)(((valorE - 4.0) * 204.0 / 16.0) + 46.0);
-  int AI2 = (int)(((valorF - 4.0) * 204.0 / 16.0) + 46.0);
-  int AI3 = (int)(((valorG - 4.0) * 204.0 / 16.0) + 46.0);
+
+  Corrente1 = valorE;
+  Corrente2 = valorF;
+  Corrente3 = valorG;
+
+  int AI1 = (int)(((Corrente1 - 4.0) * 204.0 / 16.0) + 46.0);
+  int AI2 = (int)(((Corrente2 - 4.0) * 204.0 / 16.0) + 46.0);
+  int AI3 = (int)(((Corrente3 - 4.0) * 204.0 / 16.0) + 46.0);
 
   AI1 = constrain(AI1, 46, 250);
   AI2 = constrain(AI2, 46, 247);
   AI3 = constrain(AI3, 46, 248);
 
-  analogWrite(AO1, AI1);
-  analogWrite(AO2, AI2);
-  analogWrite(AO3, AI3);
+  analogWrite(AO1, 40);
+  analogWrite(AO2, 40);
+  analogWrite(AO3, 40);
 }

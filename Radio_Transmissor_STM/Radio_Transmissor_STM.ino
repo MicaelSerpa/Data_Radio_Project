@@ -40,7 +40,7 @@ void loop() {
   // DI3 = lerDigitais(di3);
   // DI4 = lerDigitais(di4);
 
-  if (millis() - tempo_troca > 1500) {
+  if (millis() - tempo_troca > 500) {
 
     tempo_troca = millis();
 

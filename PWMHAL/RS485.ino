@@ -1,12 +1,13 @@
-long Tempo_Ultima_Comunicacao = 0;
+long Tempo_Ultima_Comunicacao;
 int Flag_Serial = 0;
 
-void receber_EBYTE() {
+void receber() {
 
   if (millis() - Tempo_Ultima_Comunicacao > 3000) {
 
     Flag_Serial = 0;
-    Serial.println("Sem sinal");
+    digitalWrite(LED, HIGH);  //DESLGADO, NÃO RECEBEU
+   // Serial.println("Sem sinal");
 
     valorA = 0;
     valorB = 0;
@@ -16,29 +17,20 @@ void receber_EBYTE() {
     valorF = 0.0;
     valorG = 0.0;
     valorH = 0.0;
-    valorI = 0.0;
-    valorJ = 0.0;
 
-
-    valor1 = "0";
-    valor2 = "0";
-    valor3 = "0";
-    valor4 = "0";
-    valor5 = "0.0";
-    valor6 = "0.0";
-    valor7 = "0.0";
-    valor8 = "0.0";
-    valor9 = "0.0";
-    valor10 = "0.0";
   }
 
 
-  while (SerialEbyte.available()) {
-
+  while (Serial3.available()) {
+    //
+    //Serial.println("comunicando");
     Tempo_Ultima_Comunicacao = millis();
     Flag_Serial = 1;
+    digitalWrite(LED, LOW);  //LIGADO, RECEBEU, TÁ AO CONTRARIO
 
-    char c = SerialEbyte.read();
+
+    char c = Serial3.read();
+    //Serial.print(c);
     switch (c) {
       case '@':         //caso receba @ na serial, entende que é o fim dos dados e então trata eles
         mensagem = "";  // resseta a variável para receber os novos dados
@@ -51,10 +43,7 @@ void receber_EBYTE() {
           mensagem += buffer[i];
         }
         controleRecebido = 6;  // reset da variável de controle da comunicação. Valor da variável define o tempo para até avisar de perda de comunicação
-
-        SerialEbyte.println("OK");
-
-        break;  // para calcular o valor basta dividir o tempo que deseja, pelos milissegundos definido no primeiro IF do loop
+        break;                 // para calcular o valor basta dividir o tempo que deseja, pelos milissegundos definido no primeiro IF do loop
       default:
         if (size < BUFFER_SIZE - 1) {  //enquanto não encontra o marcador(@) de fim de dados, continua armazenando os bytes no buffer
           buffer[size] = c;

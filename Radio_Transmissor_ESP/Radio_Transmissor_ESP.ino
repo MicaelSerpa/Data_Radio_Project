@@ -27,19 +27,42 @@ void setup() {
   Serial.println("iniciando....");
 }
 
-void loop() {
+unsigned long tempo_envio = 0;
+unsigned long tempo_ack = 0;
+bool aguardandoOK = false;
 
-  //Serial.println(millis());
+void loop() {
   digitalWrite(EBYTE_M0, LOW);
   digitalWrite(EBYTE_M1, LOW);
-
-  digitalWrite(RS485_RE_DE, LOW);  // LOW PARA RECEBER E HIGH PARA ENVIAR
+  digitalWrite(RS485_RE_DE, LOW);  // LOW = receber, HIGH = enviar
   receber_RS485();
 
+  
+  if ((millis() - tempo_envio > 100) && !aguardandoOK) {
+    tempo_envio = millis();
 
-  if (millis() - tempo_loop > 1500) {
-    tempo_loop = millis();
-    Serial.println(valor1 + ";" + valor2 + ";" + valor3 + ";" + valor4 + ";" + valor5 + ";" + valor6 + ";" + valor7 + ";" + valor8 + ";@");
-    SerialEbyte.println(valor1 + ";" + valor2 + ";" + valor3 + ";" + valor4 + ";" + valor5 + ";" + valor6 + ";" + valor7 + ";" + valor8 + ";@");
+    String pacote = valor1 + ";" + valor2 + ";" + valor3 + ";" + valor4 + ";" + valor5 + ";" + valor6 + ";" + valor7 + ";" + valor8 + ";@";
+
+    Serial.println(pacote);
+    SerialEbyte.println(pacote);
+
+    aguardandoOK = true;   
+    tempo_ack = millis(); 
+  }
+
+  
+  if (aguardandoOK && SerialEbyte.available()) {
+    String resposta = SerialEbyte.readStringUntil('\n');
+    resposta.trim();
+
+    if (resposta == "OK") {
+      Serial.println("Confirmação recebida!");
+      aguardandoOK = false;
+    }
+  }
+
+  if (aguardandoOK && (millis() - tempo_ack > 900)) {
+    Serial.println("Sem resposta, reenviando...");
+    aguardandoOK = false; 
   }
 }

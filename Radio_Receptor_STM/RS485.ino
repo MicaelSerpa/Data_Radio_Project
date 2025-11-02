@@ -6,7 +6,7 @@ void receber() {
   if (millis() - Tempo_Ultima_Comunicacao > 3000) {
 
     Flag_Serial = 0;
-    digitalWrite(LED, LOW);
+    digitalWrite(LED, HIGH);
     //Serial.println("Sem sinal");
 
     valorA = 0;
@@ -25,7 +25,7 @@ void receber() {
     //Serial.println("esperando...");
     Tempo_Ultima_Comunicacao = millis();
     Flag_Serial = 1;
-    digitalWrite(LED, HIGH);
+    digitalWrite(LED, LOW);
 
     char c = Serial3.read();
     Serial.print(c);
