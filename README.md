@@ -86,3 +86,23 @@ Toda contribuição é bem-vinda!
 📄 **Licença**
 
 Este projeto é distribuído sob a licença MIT. Consulte o arquivo LICENSE para mais detalhes.
+
+## 🔄 Fluxograma de Comunicação do Sistema
+
+```mermaid
+flowchart LR
+    subgraph TRANSMISSOR[📡 Lado Transmissor]
+        A[Entradas Digitais e Analógicas] --> B[Placa de Leitura (STM32/ESP32)]
+        B -->|Leituras| C[RS485 - Comunicação Serial]
+        C --> D[Placa Intermediária]
+        D -->|Pacote de Dados| E[Módulo de Rádio Transmissor]
+    end
+
+    subgraph RECEPTOR[🛰️ Lado Receptor]
+        F[Módulo de Rádio Receptor] -->|Dados Recebidos| G[Placa Intermediária]
+        G -->|RS485| H[Placa de Escrita (STM32/ESP32)]
+        H --> I[Saídas Digitais e Analógicas]
+    end
+
+    style TRANSMISSOR fill:#e6f3ff,stroke:#0077cc,stroke-width:1px
+    style RECEPTOR fill:#fff3e6,stroke:#cc7700,stroke-width:1px
