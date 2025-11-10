@@ -93,7 +93,7 @@ Este projeto é distribuído sob a licença MIT. Consulte o arquivo LICENSE para
 flowchart LR
 
  subgraph RECEPTOR["Lado Receptor"]
-        F["Módulo de Rádio Receptor"] -->|"Dados Recebidos"| G["Placa Intermediária"]
+        F["Módulo de Rádio Receptor"] -->|"Dados Recebidos"| G["Placa Intermediária - ESP32"]
         G -->|"RS485"| H["Placa de Escrita - STM32"]
         H --> I["Saídas Digitais e Analógicas"]
     end
@@ -101,7 +101,7 @@ flowchart LR
     subgraph TRANSMISSOR["Lado Transmissor"]
         A["Entradas Digitais e Analógicas"] --> B["Placa de Leitura - STM32"]
         B -->|"Leituras"| C["RS485 - Comunicação Serial"]
-        C --> D["Placa Intermediária"]
+        C --> D["Placa Intermediária - ESP32"]
         D -->|"Pacote de Dados"| E["Módulo de Rádio Transmissor"]
     end
 
