@@ -91,6 +91,13 @@ Este projeto é distribuído sob a licença MIT. Consulte o arquivo LICENSE para
 
 ```mermaid
 flowchart LR
+
+ subgraph RECEPTOR["Lado Receptor"]
+        F["Módulo de Rádio Receptor"] -->|"Dados Recebidos"| G["Placa Intermediária"]
+        G -->|"RS485"| H["Placa de Escrita - STM32"]
+        H --> I["Saídas Digitais e Analógicas"]
+    end
+
     subgraph TRANSMISSOR["Lado Transmissor"]
         A["Entradas Digitais e Analógicas"] --> B["Placa de Leitura - STM32"]
         B -->|"Leituras"| C["RS485 - Comunicação Serial"]
@@ -98,8 +105,4 @@ flowchart LR
         D -->|"Pacote de Dados"| E["Módulo de Rádio Transmissor"]
     end
 
-    subgraph RECEPTOR["Lado Receptor"]
-        F["Módulo de Rádio Receptor"] -->|"Dados Recebidos"| G["Placa Intermediária"]
-        G -->|"RS485"| H["Placa de Escrita - STM32"]
-        H --> I["Saídas Digitais e Analógicas"]
-    end
+   
